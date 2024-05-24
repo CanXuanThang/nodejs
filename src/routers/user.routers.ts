@@ -12,7 +12,7 @@ export default class UserRouter extends BaseRouter {
   }
 
   config() {
-    this.router.get("/", this.userCtrl.getUserInfo);
-    // this.router.post("/getUser", validateToken, this.userCtrl.);
+    this.router.get("/user-info", validateToken, this.userCtrl.getUserInfo);
+    this.router.post("/create-user", this.userCtrl.createUser);
   }
 }

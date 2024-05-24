@@ -16,4 +16,10 @@ export class UserService {
   async getById(id: number): Promise<UserModel | null> {
     return await this.userRespository.findByPk(id);
   }
+
+  async getUserByEmail(email: string): Promise<UserModel | null> {
+    return await this.userRespository.findOne({
+      where: { email: email },
+    });
+  }
 }
