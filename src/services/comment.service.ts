@@ -1,12 +1,11 @@
 import { Repository } from "sequelize-typescript";
 import { CommentModel } from "../models/comment.model";
-
-const db = require("../models");
+import { sequelize } from "../databases/sequelize";
 
 export class CommentService {
   private commentRepository: Repository<CommentModel>;
 
   constructor() {
-    this.commentRepository = db.comments;
+    this.commentRepository = sequelize.getRepository(CommentModel);
   }
 }

@@ -1,12 +1,11 @@
 import { Repository } from "sequelize-typescript";
 import { CartModel } from "../models/cart.model";
-
-const db = require("../models");
+import { sequelize } from "../databases/sequelize";
 
 export class CartService {
   private cartRepository: Repository<CartModel>;
 
   constructor() {
-    this.cartRepository = db.carts;
+    this.cartRepository = sequelize.getRepository(CartModel);
   }
 }

@@ -3,8 +3,6 @@ import { ProductModel } from "../models/product.model";
 import { CategoryModel } from "../models/category.model";
 import { sequelize } from "../databases/sequelize";
 
-const db = require("../models");
-
 export class ProductService {
   private productRepository: Repository<ProductModel>;
   private categoryRepository: Repository<CategoryModel>;
@@ -15,10 +13,10 @@ export class ProductService {
   }
 
   async getAll(): Promise<ProductModel[] | any> {
-    return await this.categoryRepository.findAndCountAll({
+    return await this.productRepository.findAndCountAll({
       include: [
         {
-          model: this.productRepository,
+          model: this.categoryRepository,
           required: true,
         },
       ],
