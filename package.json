@@ -24,6 +24,7 @@
     "sequelize": "^6.37.3",
     "sequelize-cli": "^6.6.2",
     "sequelize-typescript": "^2.1.6",
+    "fs": "^0.0.1-security",
     "ts-node": "^10.9.2"
   },
   "devDependencies": {

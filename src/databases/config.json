@@ -5,7 +5,29 @@
     "database": "study",
     "host": "localhost",
     "dialect": "mysql",
-    "port": 3307
+    "port": 3307,
+    "logging": false,
+    "query": {
+      "raw": true
+    },
+    "timezone": "+07:00",
+    "charset": "utf8",
+    "collate": "utf8_general_ci"
+  },
+  "production": {
+    "username": "root",
+    "password": "123123",
+    "database": "study",
+    "host": "localhost",
+    "dialect": "mysql",
+    "port": 3307,
+    "logging": false,
+    "query": {
+      "raw": true
+    },
+    "timezone": "+07:00",
+    "charset": "utf8",
+    "collate": "utf8_general_ci"
   }
 }
   

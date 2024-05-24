@@ -1,13 +1,12 @@
+import { sequelize } from "../databases/sequelize";
 import { UserModel } from "../models/user.model";
 import { Repository } from "sequelize-typescript";
-
-const db = require("../models");
 
 export class UserService {
   private userRespository: Repository<UserModel>;
 
   constructor() {
-    this.userRespository = db.getRepository(UserModel);
+    this.userRespository = sequelize.getRepository(UserModel);
   }
 
   async create(data: any): Promise<UserModel> {

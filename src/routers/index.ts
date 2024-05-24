@@ -1,5 +1,6 @@
 import { Router } from "express";
 import UserRouter from "./user.routers";
+import ProductRouter from "./product.routers";
 
 class MainRouters {
   public routers: Router;
@@ -11,6 +12,7 @@ class MainRouters {
 
   private config() {
     this.routers.use("/users", new UserRouter().router);
+    this.routers.use("/products", new ProductRouter().router);
   }
 }
 

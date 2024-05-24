@@ -1,10 +1,12 @@
 import {
   Column,
   CreatedAt,
+  HasMany,
   Model,
   Table,
   UpdatedAt,
 } from "sequelize-typescript";
+import { ProductModel } from "./product.model";
 
 @Table({
   tableName: "categories",
@@ -14,7 +16,10 @@ export class CategoryModel extends Model {
 
   @Column name: string;
 
-  @CreatedAt create_at: Date;
+  @CreatedAt created_at: Date;
 
-  @UpdatedAt update_at: Date;
+  @UpdatedAt updated_at: Date;
+
+  @HasMany(() => ProductModel, { foreignKey: "category_id" })
+  products: ProductModel[];
 }

@@ -11,9 +11,9 @@ export class UserController extends BaseController {
   }
 
   getUserInfo = async (req: Request, res: Response, next: NextFunction) => {
-    const user_id = req.body.id;
+    const user_id = req.query.id;
     try {
-      const userInfo = await this.userService.getById(user_id);
+      const userInfo = await this.userService.getById(Number(user_id));
 
       if (userInfo) {
         this.resResponse.ok(res, userInfo);
