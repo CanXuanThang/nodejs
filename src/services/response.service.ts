@@ -27,6 +27,15 @@ class ResponseService {
     const response = new IUnauthorization(message);
     res.status(StatusCodes.UNAUTHORIZED).json(response);
   }
+
+  public notHavePermission(
+    res: Response,
+    data: any,
+    message = "You do not have permission to access"
+  ) {
+    const response = new IError(data, message);
+    res.status(StatusCodes.METHOD_NOT_ALLOWED).json(response);
+  }
 }
 
 export default ResponseService;

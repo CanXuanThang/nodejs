@@ -1,6 +1,6 @@
 import { UserController } from "../controllers/user.controller";
 import BaseRouter from "./base.routers";
-import { validateToken } from "../middlewares/role.middleware";
+import { grantAccess, validateToken } from "../middlewares/role.middleware";
 
 export default class UserRouter extends BaseRouter {
   public userCtrl: UserController;
@@ -12,7 +12,19 @@ export default class UserRouter extends BaseRouter {
   }
 
   config() {
-    this.router.get("/user-info", validateToken, this.userCtrl.getUserInfo);
-    this.router.post("/create-user", this.userCtrl.createUser);
+    this.router.get("/", validateToken, this.userCtrl.getUserInfo);
+    this.router.put(
+      "/update-user/:id",
+      validateToken,
+      this.userCtrl.updateUser
+    );
+    this.router.delete(
+      "/:id",
+      validateToken,
+      grantAccess("delete"),
+      this.userCtrl.deleteUser
+    );
+    this.router.post("/login", this.userCtrl.loginUser);
+    this.router.post("/register", this.userCtrl.createUser);
   }
 }

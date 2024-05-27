@@ -22,4 +22,17 @@ export class UserService {
       where: { email: email },
     });
   }
+
+  async update(id: number, data: any) {
+    const user = await this.getById(id);
+    if (user) {
+      return await user.update(data);
+    } else {
+      return false;
+    }
+  }
+
+  async delete(id: number) {
+    return await this.userRespository.destroy({ where: { id: id } });
+  }
 }
