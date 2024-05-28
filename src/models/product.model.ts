@@ -30,6 +30,8 @@ export class ProductModel extends Model {
 
   @Column category_id: number;
 
+  @Column image: string;
+
   @CreatedAt created_at: Date;
 
   @UpdatedAt updated_at: Date;

@@ -33,6 +33,8 @@ export class UserModel extends Model {
 
   @Column password: string;
 
+  @Column avatar: string;
+
   @CreatedAt created_at: Date;
 
   @UpdatedAt updated_at: Date;

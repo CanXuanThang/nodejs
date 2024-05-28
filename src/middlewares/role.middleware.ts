@@ -31,16 +31,13 @@ export const validateToken = async (
 export const grantAccess = (action: string) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const userService = new UserService();
       const resService = new ResponseService();
 
       const authHeader = req.headers.authorization;
       const token = authHeader?.split(" ")[1];
       const decoded: any = jwtDecode(token || "");
 
-      const user = await userService.getById(decoded.id);
-
-      if (user && user.role === 1 && action in ROLE_ADMIN) {
+      if (decoded && decoded.role === 1 && action in ROLE_ADMIN) {
         next();
       } else {
         return resService.notHavePermission(res, {});

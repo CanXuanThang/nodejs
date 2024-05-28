@@ -12,22 +12,27 @@ export default class CategoryRouter extends BaseRouter {
   }
 
   config(): void {
-    this.router.get("/", this.categoryCtrl.getAllCategory),
-      this.router.post(
-        "/create",
-        validateToken,
-        this.categoryCtrl.createCategory
-      ),
-      this.router.put(
-        '/update/"id',
-        validateToken,
-        this.categoryCtrl.updateCategory
-      ),
-      this.router.delete(
-        "delete/:id",
-        validateToken,
-        grantAccess("delete"),
-        this.categoryCtrl.deleteCategory
-      );
+    this.router.post("/", this.categoryCtrl.getAllCategory);
+
+    this.router.post(
+      "/create",
+      validateToken,
+      grantAccess("create"),
+      this.categoryCtrl.createCategory
+    );
+
+    this.router.put(
+      '/update/"id',
+      validateToken,
+      grantAccess("update"),
+      this.categoryCtrl.updateCategory
+    );
+
+    this.router.delete(
+      "delete/:id",
+      validateToken,
+      grantAccess("delete"),
+      this.categoryCtrl.deleteCategory
+    );
   }
 }

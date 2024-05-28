@@ -6,6 +6,7 @@ import {
 import { UserService } from "../services/user.service";
 import BaseController from "./base.controller";
 import { NextFunction, Request, Response } from "express";
+import { uploadFile } from "../services/upload.service";
 
 export class UserController extends BaseController {
   userService: UserService;
@@ -31,7 +32,7 @@ export class UserController extends BaseController {
     }
   };
 
-  createUser = async (req: Request, res: Response, next: NextFunction) => {
+  createUser = async (req: any, res: Response, next: NextFunction) => {
     try {
       let {
         email,
@@ -131,7 +132,7 @@ export class UserController extends BaseController {
         if (isPassword) {
           this.resResponse.ok(res, {
             ...user.dataValues,
-            token: await generateToken(user.id),
+            token: await generateToken(user.id, user.role),
           });
         } else {
           this.resResponse.badRequest(res, {}, "Password isn't match!");
@@ -155,6 +156,36 @@ export class UserController extends BaseController {
         this.resResponse.ok(res, {});
       } else {
         this.resResponse.badRequest(res, {}, "User is not exist!");
+      }
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  uploadAvatar = async (req: Request, res: Response, next: NextFunction) => {
+    const file = req.file;
+
+    const { id } = req.params;
+
+    try {
+      if (!id) {
+        return this.resResponse.badRequest(res, {}, "You need enter id user !");
+      }
+
+      const uploadUrl = await uploadFile(file, next);
+
+      const user = await this.userService.update(Number(id), {
+        avatar: uploadUrl,
+      });
+
+      if (user) {
+        this.resResponse.ok(res, user);
+      } else {
+        this.resResponse.serverError(
+          res,
+          {},
+          "Opps! Can't create this user right now, please try again later."
+        );
       }
     } catch (err) {
       next(err);

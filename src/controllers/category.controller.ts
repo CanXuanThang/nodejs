@@ -2,6 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import { CategoryService } from "../services/category.service";
 import BaseController from "./base.controller";
 
+import { v2 as cloudinary } from "cloudinary";
+import Cloudinary from "../configs/cloudinary.config";
 export class CategoryController extends BaseController {
   categoryService: CategoryService;
 
@@ -10,15 +12,29 @@ export class CategoryController extends BaseController {
     this.categoryService = new CategoryService();
   }
 
-  getAllCategory = async (req: Request, res: Response, next: NextFunction) => {
+  getAllCategory = async (req: any, res: Response, next: NextFunction) => {
     try {
-      const categories = this.categoryService.getAll();
+      const categories = await this.categoryService.getAll();
+      const { avatar } = req.body;
 
-      if (categories) {
-        this.resResponse.ok(res, categories);
-      } else {
-        this.resResponse.notFound(res, {});
-      }
+      console.log(req.file);
+
+      // cloudinary.config({
+      //   cloud_name: Cloudinary.cloud_name,
+      //   api_key: Cloudinary.api_key,
+      //   api_secret: Cloudinary.api_secret,
+      // });
+
+      // const resultUpload = await cloudinary.uploader
+      //   .upload(avatar, { allowed_formats: ["jpg", "png", "svg"] })
+      //   .catch((err) => next(err));
+      // console.log(resultUpload);
+
+      // if (categories) {
+      //   this.resResponse.ok(res, categories);
+      // } else {
+      //   this.resResponse.notFound(res, {});
+      // }
     } catch (err) {
       next(err);
     }

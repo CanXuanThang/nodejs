@@ -22,8 +22,8 @@ export const comparePassword = (
   });
 };
 
-export const generateToken = (id: number) => {
+export const generateToken = (id: number, role: number) => {
   const jwtKey = process.env.IWT_SECRET_KEY;
 
-  return jwt.sign({ id }, jwtKey, { expiresIn: "3d" });
+  return jwt.sign({ id, role }, jwtKey, { expiresIn: "3d" });
 };
