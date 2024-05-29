@@ -1,4 +1,5 @@
 import { ProductController } from "../controllers/product.controller";
+import { grantAccess, validateToken } from "../middlewares/role.middleware";
 import BaseRouter from "./base.routers";
 
 export default class ProductRouter extends BaseRouter {
@@ -12,6 +13,28 @@ export default class ProductRouter extends BaseRouter {
 
   config() {
     this.router.get("/", this.productCtrl.getAllProduct);
-    this.router.get("/get-comment", this.productCtrl.getCommentProduct);
+
+    this.router.get("/get-comment/:id", this.productCtrl.getCommentProduct);
+
+    this.router.post(
+      "/create",
+      validateToken,
+      grantAccess("create"),
+      this.productCtrl.createProduct
+    );
+
+    this.router.put(
+      "/update/:id",
+      validateToken,
+      grantAccess("update"),
+      this.productCtrl.updateProduct
+    );
+
+    this.router.put(
+      "/delete/:id",
+      validateToken,
+      grantAccess("delete"),
+      this.productCtrl.deleteProduct
+    );
   }
 }

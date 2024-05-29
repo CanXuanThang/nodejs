@@ -26,12 +26,35 @@ export class ProductService {
     });
   }
 
-  async getCommentByIdCategory(): Promise<ProductModel[] | any> {
+  async getCommentByIdCategory(id: number): Promise<ProductModel[] | any> {
     return await this.repository.findAndCountAll({
+      where: { id: id },
       include: {
         model: this.commentRepository,
         required: true,
       },
     });
+  }
+
+  async getById(id: number): Promise<ProductModel | null> {
+    return await this.repository.findByPk(id);
+  }
+
+  async create(data: any): Promise<ProductModel> {
+    return await this.repository.create(data);
+  }
+
+  async update(id: number, data: any) {
+    const product = await this.getById(id);
+
+    if (product) {
+      return product.update(data);
+    } else {
+      return false;
+    }
+  }
+
+  async delete(id: number) {
+    return this.repository.destroy({ where: { id: id } });
   }
 }

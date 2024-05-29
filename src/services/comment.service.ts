@@ -8,4 +8,8 @@ export class CommentService {
   constructor() {
     this.commentRepository = sequelize.getRepository(CommentModel);
   }
+
+  async create(data: any): Promise<CommentModel> {
+    return await this.commentRepository.create(data);
+  }
 }
