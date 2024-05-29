@@ -20,7 +20,24 @@ export class ProductController extends BaseController {
         this.resResponse.notFound(res, {});
       }
     } catch (err) {
-      console.log(err);
+      next(err);
+    }
+  };
+
+  getCommentProduct = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const comments = await this.productService.getCommentByIdCategory();
+
+      if (comments) {
+        this.resResponse.ok(res, comments);
+      } else {
+        this.resResponse.notFound(res, {});
+      }
+    } catch (err) {
       next(err);
     }
   };

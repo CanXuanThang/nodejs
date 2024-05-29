@@ -38,7 +38,7 @@ export class UserController extends BaseController {
         email,
         first_name,
         last_name,
-        role = 2,
+        role = 3,
         phone_number,
         password,
       } = req.body;

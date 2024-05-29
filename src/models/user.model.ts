@@ -7,6 +7,8 @@ import {
   UpdatedAt,
 } from "sequelize-typescript";
 import { CommentModel } from "./comment.model";
+import { ProductModel } from "./product.model";
+import { CategoryModel } from "./category.model";
 
 @Table({
   tableName: "users",
@@ -41,4 +43,10 @@ export class UserModel extends Model {
 
   @HasMany(() => CommentModel, { foreignKey: "id" })
   comments: [CommentModel];
+
+  @HasMany(() => ProductModel, { foreignKey: "user_id" })
+  products: ProductModel[];
+
+  @HasMany(() => CategoryModel, { foreignKey: "user_id" })
+  categories: CategoryModel[];
 }

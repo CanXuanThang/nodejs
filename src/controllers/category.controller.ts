@@ -15,26 +15,12 @@ export class CategoryController extends BaseController {
   getAllCategory = async (req: any, res: Response, next: NextFunction) => {
     try {
       const categories = await this.categoryService.getAll();
-      const { avatar } = req.body;
 
-      console.log(req.file);
-
-      // cloudinary.config({
-      //   cloud_name: Cloudinary.cloud_name,
-      //   api_key: Cloudinary.api_key,
-      //   api_secret: Cloudinary.api_secret,
-      // });
-
-      // const resultUpload = await cloudinary.uploader
-      //   .upload(avatar, { allowed_formats: ["jpg", "png", "svg"] })
-      //   .catch((err) => next(err));
-      // console.log(resultUpload);
-
-      // if (categories) {
-      //   this.resResponse.ok(res, categories);
-      // } else {
-      //   this.resResponse.notFound(res, {});
-      // }
+      if (categories) {
+        this.resResponse.ok(res, categories);
+      } else {
+        this.resResponse.notFound(res, {});
+      }
     } catch (err) {
       next(err);
     }
@@ -60,8 +46,12 @@ export class CategoryController extends BaseController {
   updateCategory = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
 
+    let { name } = req.body;
+
     try {
-      const category = await this.categoryService.update(Number(id), name);
+      const category = await this.categoryService.update(Number(id), {
+        name: name,
+      });
 
       if (category) {
         this.resResponse.ok(res, category);
@@ -89,6 +79,27 @@ export class CategoryController extends BaseController {
         this.resResponse.ok(res, {});
       } else {
         this.resResponse.badRequest(res, {}, "Category isn't exist !");
+      }
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  getAllCategoryByUserId = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const { id } = req.params;
+
+    try {
+      const categories = await this.categoryService.getProductByUserId(
+        Number(id)
+      );
+      if (categories) {
+        this.resResponse.ok(res, categories);
+      } else {
+        this.resResponse.badRequest(res, {}, "Opps! Server error");
       }
     } catch (err) {
       next(err);

@@ -12,7 +12,14 @@ export default class CategoryRouter extends BaseRouter {
   }
 
   config(): void {
-    this.router.post("/", this.categoryCtrl.getAllCategory);
+    this.router.get("/", this.categoryCtrl.getAllCategory);
+
+    this.router.get(
+      "/get-category-by-user/:id",
+      validateToken,
+      grantAccess("read"),
+      this.categoryCtrl.getAllCategoryByUserId
+    );
 
     this.router.post(
       "/create",
@@ -22,7 +29,7 @@ export default class CategoryRouter extends BaseRouter {
     );
 
     this.router.put(
-      '/update/"id',
+      "/update/:id",
       validateToken,
       grantAccess("update"),
       this.categoryCtrl.updateCategory

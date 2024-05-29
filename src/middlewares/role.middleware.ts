@@ -37,7 +37,11 @@ export const grantAccess = (action: string) => {
       const token = authHeader?.split(" ")[1];
       const decoded: any = jwtDecode(token || "");
 
-      if (decoded && decoded.role === 1 && action in ROLE_ADMIN) {
+      if (
+        decoded &&
+        (decoded.role === 1 || decoded.role === 2) &&
+        action in ROLE_ADMIN
+      ) {
         next();
       } else {
         return resService.notHavePermission(res, {});

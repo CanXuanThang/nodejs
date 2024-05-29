@@ -12,5 +12,6 @@ export default class ProductRouter extends BaseRouter {
 
   config() {
     this.router.get("/", this.productCtrl.getAllProduct);
+    this.router.get("/get-comment", this.productCtrl.getCommentProduct);
   }
 }
