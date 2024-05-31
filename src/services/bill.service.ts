@@ -65,7 +65,7 @@ export class BillService {
     );
     res.setHeader(
       "Content-Disposition",
-      "attachment; filename=" + "bills.xlsx"
+      "attachment; filename=" + "bills" + id + ".xlsx"
     );
 
     await workbook.xlsx.write(res);
