@@ -18,6 +18,11 @@ export default class BillRouter extends BaseRouter {
       this.billCtrl.getBillByUserId
     );
 
-    this.router.get("/download/:id", this.billCtrl.downloadFile);
+    this.router.get(
+      "/download/:id",
+      validateToken,
+      grantAccess("download"),
+      this.billCtrl.downloadFile
+    );
   }
 }

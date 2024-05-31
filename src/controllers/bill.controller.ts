@@ -30,9 +30,9 @@ export class BillController extends BaseController {
     let { id } = req.params;
 
     try {
-      const isResult = await this.billService.downloadBill(Number(id), res);
+      await this.billService.downloadBill(Number(id), res);
 
-      this.resResponse.ok(res, isResult);
+      this.resResponse.ok(res, {});
     } catch (err) {
       next(err);
     }

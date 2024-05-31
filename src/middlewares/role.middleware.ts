@@ -29,7 +29,7 @@ export const validateToken = async (
 };
 
 export const grantAccess = (
-  action: "read" | "create" | "delete" | "update"
+  action: "read" | "create" | "delete" | "update" | "download"
 ) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {

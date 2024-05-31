@@ -12,6 +12,7 @@ export default class CartRouter extends BaseRouter {
   }
   config(): void {
     this.router.post("/create", validateToken, this.cartCtrl.createCart);
+    this.router.put("/update", validateToken, this.cartCtrl.createCart);
     this.router.delete("/:id", validateToken, this.cartCtrl.deleteCart);
   }
 }
