@@ -1,4 +1,5 @@
 import { sequelize } from "../databases/sequelize";
+import { hasPassword, sendPasswordMailer } from "../helpers/auth.helper";
 import { UserModel } from "../models/user.model";
 import { Repository } from "sequelize-typescript";
 
@@ -34,5 +35,16 @@ export class UserService {
 
   async delete(id: number) {
     return await this.userRespository.destroy({ where: { id: id } });
+  }
+
+  async forgotPassword(email: string, password: string) {
+    const user = await this.getUserByEmail(email);
+
+    if (user) {
+      await user.update({ password: await hasPassword(password) });
+      return await sendPasswordMailer(email, password);
+    } else {
+      return false;
+    }
   }
 }

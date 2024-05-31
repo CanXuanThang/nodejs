@@ -1,5 +1,6 @@
 import {
   comparePassword,
+  generatePassword,
   generateToken,
   hasPassword,
 } from "../helpers/auth.helper";
@@ -186,6 +187,29 @@ export class UserController extends BaseController {
           {},
           "Opps! Can't create this user right now, please try again later."
         );
+      }
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  changePasswordUseEmail = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    let { email } = req.body;
+
+    try {
+      const result = await this.userService.forgotPassword(
+        email,
+        await generatePassword()
+      );
+
+      if (result) {
+        this.resResponse.ok(res, {});
+      } else {
+        this.resResponse.serverError(res, {});
       }
     } catch (err) {
       next(err);

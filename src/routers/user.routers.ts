@@ -21,6 +21,8 @@ export default class UserRouter extends BaseRouter {
       this.userCtrl.updateUser
     );
 
+    this.router.post("/forgot-password", this.userCtrl.changePasswordUseEmail);
+
     this.router.delete(
       "/:id",
       validateToken,
