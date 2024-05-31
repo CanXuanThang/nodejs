@@ -27,8 +27,12 @@ export class ProductController extends BaseController {
   };
 
   getAllProduct = async (req: Request, res: Response, next: NextFunction) => {
+    let { page, limit } = req.query;
     try {
-      const products = await this.productService.getAll();
+      const products = await this.productService.getAll(
+        Number(page),
+        Number(limit)
+      );
 
       if (products) {
         this.resResponse.ok(res, products);
@@ -156,6 +160,26 @@ export class ProductController extends BaseController {
 
       if (result) {
         this.resResponse.ok(res, {}, "Delete product success !");
+      } else {
+        this.resResponse.serverError(res, {});
+      }
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  searchByProductOrCategoryName = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    let { name } = req.params;
+
+    try {
+      const products = await this.productService.search(name);
+
+      if (products) {
+        this.resResponse.ok(res, products);
       } else {
         this.resResponse.serverError(res, {});
       }

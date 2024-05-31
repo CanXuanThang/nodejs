@@ -3,6 +3,8 @@ import { ProductModel } from "../models/product.model";
 import { CategoryModel } from "../models/category.model";
 import { sequelize } from "../databases/sequelize";
 import { CommentModel } from "../models/comment.model";
+import { Op } from "sequelize";
+import { getPagingData } from "../helpers/utils.helper";
 
 export class ProductService {
   private repository: Repository<ProductModel>;
@@ -15,15 +17,24 @@ export class ProductService {
     this.commentRepository = sequelize.getRepository(CommentModel);
   }
 
-  async getAll(): Promise<ProductModel[] | any> {
-    return await this.repository.findAndCountAll({
+  async getAll(page?: number, limit?: number): Promise<ProductModel[] | any> {
+    const currentPage = page || 1;
+    const limitRecord = limit || 20;
+
+    const offset = (currentPage - 1) * limitRecord;
+
+    const rows = await this.repository.findAndCountAll({
       include: [
         {
           model: this.categoryRepository,
           required: true,
         },
       ],
+      limit: limit,
+      offset: offset,
     });
+    const result = getPagingData(rows, currentPage, limitRecord);
+    return result;
   }
 
   async getCommentByIdCategory(id: number): Promise<ProductModel[] | any> {
@@ -56,5 +67,22 @@ export class ProductService {
 
   async delete(id: number) {
     return this.repository.destroy({ where: { id: id } });
+  }
+
+  async search(name: string) {
+    return this.repository.findAll({
+      where: {
+        [Op.or]: [
+          { name: { [Op.like]: `%${name}` } },
+          { "$category.name$": { [Op.like]: `%${name}` } },
+        ],
+      },
+      include: [
+        {
+          model: this.categoryRepository,
+          required: true,
+        },
+      ],
+    });
   }
 }
