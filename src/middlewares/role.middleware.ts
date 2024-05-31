@@ -28,7 +28,9 @@ export const validateToken = async (
   next();
 };
 
-export const grantAccess = (action: string) => {
+export const grantAccess = (
+  action: "read" | "create" | "delete" | "update"
+) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       const resService = new ResponseService();

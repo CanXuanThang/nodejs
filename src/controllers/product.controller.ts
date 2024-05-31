@@ -10,6 +10,22 @@ export class ProductController extends BaseController {
     this.productService = new ProductService();
   }
 
+  getProductById = async (req: Request, res: Response, next: NextFunction) => {
+    let { id } = req.params;
+
+    try {
+      const product = await this.productService.getById(Number(id));
+
+      if (product) {
+        this.resResponse.ok(res, product);
+      } else {
+        this.resResponse.serverError(res, {});
+      }
+    } catch (err) {
+      next(err);
+    }
+  };
+
   getAllProduct = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const products = await this.productService.getAll();

@@ -19,6 +19,14 @@ export class CartModel extends Model {
 
   @Column user_id: number;
 
+  @Column quantity: number;
+
+  @Column totalPrice: number;
+
+  @Column color: string;
+
+  @Column size: string;
+
   @CreatedAt created_at: Date;
 
   @UpdatedAt updated_at: Date;
