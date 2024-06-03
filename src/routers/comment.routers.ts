@@ -1,6 +1,7 @@
 import { CommentController } from "../controllers/comment.controller";
 import { grantAccess, validateToken } from "../middlewares/role.middleware";
 import BaseRouter from "./base.routers";
+import * as validate from "../helpers/validate.helper";
 
 export default class CommentRouter extends BaseRouter {
   public commentCtrl: CommentController;
@@ -21,6 +22,7 @@ export default class CommentRouter extends BaseRouter {
 
     this.router.post(
       "/create",
+      validate.createComment,
       validateToken,
       grantAccess("create"),
       this.commentCtrl.createComment

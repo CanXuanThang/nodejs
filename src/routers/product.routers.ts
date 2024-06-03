@@ -1,6 +1,7 @@
 import { ProductController } from "../controllers/product.controller";
 import { grantAccess, validateToken } from "../middlewares/role.middleware";
 import BaseRouter from "./base.routers";
+import * as validate from "../helpers/validate.helper";
 
 export default class ProductRouter extends BaseRouter {
   public productCtrl: ProductController;
@@ -25,6 +26,7 @@ export default class ProductRouter extends BaseRouter {
 
     this.router.post(
       "/create",
+      validate.createProduct,
       validateToken,
       grantAccess("create"),
       this.productCtrl.createProduct
@@ -32,6 +34,7 @@ export default class ProductRouter extends BaseRouter {
 
     this.router.put(
       "/update/:id",
+      validate.createProduct,
       validateToken,
       grantAccess("update"),
       this.productCtrl.updateProduct

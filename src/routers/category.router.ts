@@ -1,6 +1,7 @@
 import { CategoryController } from "../controllers/category.controller";
 import { grantAccess, validateToken } from "../middlewares/role.middleware";
 import BaseRouter from "./base.routers";
+import * as validate from "../helpers/validate.helper";
 
 export default class CategoryRouter extends BaseRouter {
   public categoryCtrl: CategoryController;
@@ -23,6 +24,7 @@ export default class CategoryRouter extends BaseRouter {
 
     this.router.post(
       "/create",
+      validate.createCategory,
       validateToken,
       grantAccess("create"),
       this.categoryCtrl.createCategory
@@ -30,6 +32,7 @@ export default class CategoryRouter extends BaseRouter {
 
     this.router.put(
       "/update/:id",
+      validate.createCategory,
       validateToken,
       grantAccess("update"),
       this.categoryCtrl.updateCategory

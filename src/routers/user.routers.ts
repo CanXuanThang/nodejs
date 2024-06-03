@@ -2,6 +2,7 @@ import { UserController } from "../controllers/user.controller";
 import BaseRouter from "./base.routers";
 import { grantAccess, validateToken } from "../middlewares/role.middleware";
 import { upload } from "../middlewares/upload.middleware";
+import * as validate from "../helpers/validate.helper";
 
 export default class UserRouter extends BaseRouter {
   public userCtrl: UserController;
@@ -17,6 +18,7 @@ export default class UserRouter extends BaseRouter {
 
     this.router.put(
       "/update-user/:id",
+      validate.createUser,
       validateToken,
       this.userCtrl.updateUser
     );
@@ -30,10 +32,11 @@ export default class UserRouter extends BaseRouter {
       this.userCtrl.deleteUser
     );
 
-    this.router.post("/login", this.userCtrl.loginUser);
+    this.router.post("/login", validate.createUser, this.userCtrl.loginUser);
 
     this.router.post(
       "/register",
+      validate.createUser,
       upload.single("avatar"),
       this.userCtrl.createUser
     );
