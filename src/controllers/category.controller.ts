@@ -2,8 +2,6 @@ import { NextFunction, Request, Response } from "express";
 import { CategoryService } from "../services/category.service";
 import BaseController from "./base.controller";
 
-import { v2 as cloudinary } from "cloudinary";
-import Cloudinary from "../configs/cloudinary.config";
 export class CategoryController extends BaseController {
   categoryService: CategoryService;
 

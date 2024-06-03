@@ -4,8 +4,6 @@ import { sequelize } from "../databases/sequelize";
 import { CartModel } from "../models/cart.model";
 import { ProductModel } from "../models/product.model";
 import { Response } from "express";
-import { StatusCodes } from "http-status-codes";
-import { stream } from "exceljs";
 import { createExcelFile } from "../helpers/excel.helper";
 
 const excelJS = require("exceljs");
