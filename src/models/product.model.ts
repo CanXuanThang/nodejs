@@ -9,7 +9,6 @@ import {
 } from "sequelize-typescript";
 import { CategoryModel } from "./category.model";
 import { CommentModel } from "./comment.model";
-import { UserModel } from "./user.model";
 
 @Table({
   tableName: "products",
@@ -25,9 +24,9 @@ export class ProductModel extends Model {
 
   @Column quantity: number;
 
-  @Column color: string;
+  @Column color: string[];
 
-  @Column size: string;
+  @Column size: string[];
 
   @Column category_id: number;
 

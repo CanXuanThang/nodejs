@@ -7,7 +7,6 @@ import {
   UpdatedAt,
 } from "sequelize-typescript";
 import { ProductModel } from "./product.model";
-import { UserModel } from "./user.model";
 
 @Table({
   tableName: "categories",

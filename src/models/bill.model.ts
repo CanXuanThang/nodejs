@@ -8,7 +8,6 @@ import {
   UpdatedAt,
 } from "sequelize-typescript";
 import { UserModel } from "./user.model";
-import { ProductModel } from "./product.model";
 import { CartModel } from "./cart.model";
 
 @Table({
