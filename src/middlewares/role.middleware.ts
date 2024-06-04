@@ -29,7 +29,8 @@ export const validateToken = async (
 };
 
 export const grantAccess = (
-  action: "read" | "create" | "delete" | "update" | "download"
+  action: "read" | "create" | "delete" | "update" | "download",
+  role: object
 ) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -39,11 +40,7 @@ export const grantAccess = (
       const token = authHeader?.split(" ")[1];
       const decoded: any = jwtDecode(token || "");
 
-      if (
-        decoded &&
-        (decoded.role === 1 || decoded.role === 2) &&
-        action in ROLE_ADMIN
-      ) {
+      if (decoded && decoded.role in role && action in ROLE_ADMIN) {
         next();
       } else {
         return resService.notHavePermission(res, {});

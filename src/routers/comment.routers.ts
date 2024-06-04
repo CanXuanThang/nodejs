@@ -16,7 +16,6 @@ export default class CommentRouter extends BaseRouter {
     this.router.get(
       "/:id",
       validateToken,
-      grantAccess("read"),
       this.commentCtrl.getAllCommentByIdProduct
     );
 
@@ -24,14 +23,8 @@ export default class CommentRouter extends BaseRouter {
       "/create",
       validate.createComment,
       validateToken,
-      grantAccess("create"),
       this.commentCtrl.createComment
     );
-    this.router.delete(
-      "/:id",
-      validateToken,
-      grantAccess("delete"),
-      this.commentCtrl.deleteComment
-    );
+    this.router.delete("/:id", validateToken, this.commentCtrl.deleteComment);
   }
 }

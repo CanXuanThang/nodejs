@@ -18,7 +18,6 @@ export default class CategoryRouter extends BaseRouter {
     this.router.get(
       "/get-category-by-user/:id",
       validateToken,
-      grantAccess("read"),
       this.categoryCtrl.getAllCategoryByUserId
     );
 
@@ -26,7 +25,7 @@ export default class CategoryRouter extends BaseRouter {
       "/create",
       validate.createCategory,
       validateToken,
-      grantAccess("create"),
+      grantAccess("create", { 1: "admin", 2: "admin_store" }),
       this.categoryCtrl.createCategory
     );
 
@@ -34,14 +33,14 @@ export default class CategoryRouter extends BaseRouter {
       "/update/:id",
       validate.createCategory,
       validateToken,
-      grantAccess("update"),
+      grantAccess("update", { 1: "admin", 2: "admin_store" }),
       this.categoryCtrl.updateCategory
     );
 
     this.router.delete(
       "delete/:id",
       validateToken,
-      grantAccess("delete"),
+      grantAccess("delete", { 1: "admin", 2: "admin_store" }),
       this.categoryCtrl.deleteCategory
     );
   }
