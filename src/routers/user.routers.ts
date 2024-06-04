@@ -44,7 +44,6 @@ export default class UserRouter extends BaseRouter {
     this.router.post(
       "/register",
       validate.createUser,
-      upload.single("avatar"),
       this.userCtrl.createUser
     );
 
