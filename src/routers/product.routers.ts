@@ -28,7 +28,7 @@ export default class ProductRouter extends BaseRouter {
       "/create",
       validate.createProduct,
       validateToken,
-      grantAccess("create", { 1: "admin", 2: "admin_store" }),
+      grantAccess({ 1: "admin", 2: "admin_store" }),
       this.productCtrl.createProduct
     );
 
@@ -36,14 +36,14 @@ export default class ProductRouter extends BaseRouter {
       "/update/:id",
       validate.createProduct,
       validateToken,
-      grantAccess("update", { 1: "admin", 2: "admin_store" }),
+      grantAccess({ 1: "admin", 2: "admin_store" }),
       this.productCtrl.updateProduct
     );
 
     this.router.put(
       "/delete/:id",
       validateToken,
-      grantAccess("delete", { 1: "admin", 2: "admin_store" }),
+      grantAccess({ 1: "admin", 2: "admin_store" }),
       this.productCtrl.deleteProduct
     );
   }

@@ -19,7 +19,7 @@ export default class UserRouter extends BaseRouter {
     this.router.get(
       "/search/:email/:name",
       validateToken,
-      grantAccess("read", { 1: "admin" }),
+      grantAccess({ 1: "admin" }),
       this.userCtrl.searchByEmailOrNameUser
     );
 
@@ -35,7 +35,7 @@ export default class UserRouter extends BaseRouter {
     this.router.delete(
       "/:id",
       validateToken,
-      grantAccess("delete", { 1: "admin" }),
+      grantAccess({ 1: "admin" }),
       this.userCtrl.deleteUser
     );
 
