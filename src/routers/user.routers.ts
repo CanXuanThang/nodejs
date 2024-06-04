@@ -16,6 +16,13 @@ export default class UserRouter extends BaseRouter {
   config() {
     this.router.get("/", validateToken, this.userCtrl.getUserInfo);
 
+    this.router.get(
+      "/search/:email/:name",
+      validateToken,
+      grantAccess("read"),
+      this.userCtrl.searchByEmailOrNameUser
+    );
+
     this.router.put(
       "/update-user/:id",
       validate.createUser,
@@ -40,6 +47,7 @@ export default class UserRouter extends BaseRouter {
       upload.single("avatar"),
       this.userCtrl.createUser
     );
+
     this.router.post(
       "/upload/:id",
       validateToken,

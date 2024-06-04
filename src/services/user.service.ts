@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import { sequelize } from "../databases/sequelize";
 import { hasPassword, sendPasswordMailer } from "../helpers/auth.helper";
 import { UserModel } from "../models/user.model";
@@ -33,11 +34,14 @@ export class UserService {
     }
   }
 
-  async delete(id: number) {
+  async delete(id: number): Promise<UserModel | number> {
     return await this.userRespository.destroy({ where: { id: id } });
   }
 
-  async forgotPassword(email: string, password: string) {
+  async forgotPassword(
+    email: string,
+    password: string
+  ): Promise<UserModel | boolean> {
     const user = await this.getUserByEmail(email);
 
     if (user) {
@@ -46,5 +50,17 @@ export class UserService {
     } else {
       return false;
     }
+  }
+
+  async search(email: string, name: string): Promise<UserModel[] | null> {
+    return await this.userRespository.findAll({
+      where: {
+        [Op.or]: [
+          { first_name: { [Op.like]: `%${name}` } },
+          { last_name: { [Op.like]: `%${name}` } },
+          { email: { [Op.like]: `%${email}` } },
+        ],
+      },
+    });
   }
 }

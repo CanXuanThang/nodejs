@@ -215,4 +215,24 @@ export class UserController extends BaseController {
       next(err);
     }
   };
+
+  searchByEmailOrNameUser = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    let { email, name } = req.params;
+
+    try {
+      const users = await this.userService.search(email, name);
+
+      if (users) {
+        this.resResponse.ok(res, users);
+      } else {
+        this.resResponse.serverError(res, {});
+      }
+    } catch (err) {
+      next(err);
+    }
+  };
 }
