@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { BillService } from "../services/bill.service";
 import BaseController from "./base.controller";
+import { jwtDecode } from "jwt-decode";
 
 export class BillController extends BaseController {
   billService: BillService;
@@ -35,6 +36,28 @@ export class BillController extends BaseController {
       this.resResponse.ok(res, {});
     } catch (err) {
       next(err);
+    }
+  };
+
+  getBillByIdUserAndMonth = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const authHeader = req.headers.authorization;
+    const token = authHeader?.split(" ")[1];
+    const decoded: any = jwtDecode(token || "");
+
+    try {
+      const result = await this.billService.getBillByMonth(Number(decoded.id));
+
+      if (result) {
+        this.resResponse.ok(res, result);
+      } else {
+        this.resResponse.serverError(res, {});
+      }
+    } catch (err) {
+      next;
     }
   };
 }

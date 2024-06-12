@@ -66,7 +66,8 @@ export class UserController extends BaseController {
       const user = await this.userService.create(userObj);
 
       if (user.id) {
-        this.resResponse.ok(res, user);
+        const { password, ...userInfo } = user.dataValues;
+        this.resResponse.ok(res, { ...userInfo });
       } else {
         this.resResponse.serverError(
           res,
@@ -131,8 +132,9 @@ export class UserController extends BaseController {
       if (user) {
         const isPassword = await comparePassword(password, user.password);
         if (isPassword) {
+          const { password, ...userData } = user.dataValues;
           this.resResponse.ok(res, {
-            ...user.dataValues,
+            ...userData,
             token: await generateToken(user.id, user.role),
           });
         } else {
@@ -207,7 +209,7 @@ export class UserController extends BaseController {
       );
 
       if (result) {
-        this.resResponse.ok(res, {});
+        this.resResponse.ok(res, {}, "Password sent from my email !");
       } else {
         this.resResponse.serverError(res, {});
       }

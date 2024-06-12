@@ -5,6 +5,7 @@ import { CartModel } from "../models/cart.model";
 import { ProductModel } from "../models/product.model";
 import { Response } from "express";
 import { createExcelFile } from "../helpers/excel.helper";
+import { col, fn } from "sequelize";
 
 const excelJS = require("exceljs");
 
@@ -67,5 +68,40 @@ export class BillService {
     );
 
     await workbook.xlsx.write(res);
+  }
+
+  async getBillByMonth(id: number) {
+    return await this.billRespository.findAll({
+      include: {
+        model: this.cartRepository,
+        required: true,
+        include: [
+          {
+            model: this.productRepository,
+            required: true,
+            where: { user_id: id },
+            attributes: [],
+          },
+        ],
+      },
+      attributes: [
+        [fn("DATE_FORMAT", col("BillModel.created_at"), "%Y-%m"), "date"],
+        [
+          fn(
+            "SUM",
+            sequelize.literal(
+              `(SELECT SUM(totalPrice) FROM carts WHERE BillModel.user_id = carts.user_id)`
+            )
+          ),
+          "totalAmount",
+        ],
+      ],
+      group: [
+        fn("DATE_FORMAT", col("BillModel.created_at"), "%Y-%m"),
+        "BillModel.id",
+        "carts.id",
+      ],
+      order: [[fn("DATE_FORMAT", col("BillModel.created_at"), "%Y-%m"), "ASC"]],
+    });
   }
 }

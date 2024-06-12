@@ -19,6 +19,12 @@ export default class BillRouter extends BaseRouter {
     );
 
     this.router.get(
+      "/get-bill-by-month",
+      // validateToken,
+      this.billCtrl.getBillByIdUserAndMonth
+    );
+
+    this.router.get(
       "/download/:id",
       validateToken,
       grantAccess({ 1: "admin", 2: "admin_store" }),

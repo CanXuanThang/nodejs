@@ -24,9 +24,9 @@ export class ProductModel extends Model {
 
   @Column quantity: number;
 
-  @Column color: string[];
+  @Column color: string;
 
-  @Column size: string[];
+  @Column size: string;
 
   @Column category_id: number;
 
